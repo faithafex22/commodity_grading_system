@@ -84,3 +84,23 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['email', 'user_id', 'first_name', 'last_name', 'phone_number', 'user_picture', 'date_joined']
         read_only_fields = ['user_id', 'date_joined', 'email', 'first_name', 'last_name']
+
+
+
+class EmailResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField(write_only=True)
+
+    def validate_email(self, value):
+        lower_email = value.lower()
+        return lower_email
+    
+
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    new_password = serializers.CharField()
+    confirm_new_password = serializers.CharField()
+
+    def validate(self, attrs):
+        if attrs['new_password'] != attrs['confirm_new_password']:
+            raise serializers.ValidationError('Passwords do not match')
+        return attrs

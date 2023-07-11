@@ -2,11 +2,11 @@ from django.db import models
 
 # Create your models here.
 
-class ActiveCommodityManager(models.Manager):
+class ActiveManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True)
 
-class NonActiveCommodityManager(models.Manager):
+class NonActiveManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_active=False)
 
@@ -21,14 +21,14 @@ class Parameter(models.Model):
         return self.name
 
     objects = models.Manager()  
-    active_objects = ActiveCommodityManager()
-    nonactive_objects = NonActiveCommodityManager()
+    active_objects = ActiveManager()
+    nonactive_objects = NonActiveManager()
 
 
 class Commodity(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='commodities', null=True, blank=True)
-    parameters = models.ManyToManyField(Parameter, through='CommodityParameter')
+    parameters = models.ManyToManyField('parameter', through='CommodityParameter')
     date_created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
@@ -36,8 +36,8 @@ class Commodity(models.Model):
         return self.name
 
     objects = models.Manager()
-    active_objects = ActiveCommodityManager()
-    nonactive_objects = NonActiveCommodityManager()
+    active_objects = ActiveManager()
+    nonactive_objects = NonActiveManager()
 
     @property
     def grade(self):

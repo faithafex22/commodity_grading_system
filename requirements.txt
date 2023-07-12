@@ -10,6 +10,7 @@ click-repl==0.3.0
 colorama==0.4.6
 dj-database-url==2.0.0
 Django==4.2.3
+django-cors-headers==4.1.0
 django-dotenv==1.4.2
 django-environ==0.10.0
 djangorestframework==3.14.0

@@ -35,19 +35,12 @@ ALLOWED_HOSTS = ['https://commodity-grading-system.onrender.com', '*']
 
 CSRF_TRUSTED_ORIGINS = ['https://commodity-grading-system.onrender.com']
 
-
-
-
 CORS_ALLOWED_ORIGINS = ['https://commodity-grading-system.onrender.com', 'http://localhost:4000',
 
                         'http://localhost:8040', 'http://127.0.0.1:4000', 'http://127.0.0.1:8040']
 
                    
-
 CORS_ALLOW_CREDENTIALS = True
-
-
-
 
 CORS_ORIGIN_ALLOW_ALL = True
 

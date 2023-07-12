@@ -27,7 +27,7 @@ class Parameter(models.Model):
 
 class Commodity(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='commodities', null=True, blank=True)
+    image = models.ImageField(upload_to='grading_app/media', null=True, blank=True)
     parameters = models.ManyToManyField('parameter', through='CommodityParameter')
     date_created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)

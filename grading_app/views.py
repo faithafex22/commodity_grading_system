@@ -101,7 +101,7 @@ class CommodityGradeListAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
 
-class CommodityGradeDetailAPIView(generics.DetailAPIView):
+class CommodityGradeDetailAPIView(generics.RetrieveAPIView):
     queryset = Grade.objects.all()
     serializer_class = ParameterSerializer
     permission_classes = [permissions.IsAuthenticated]

@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from rest_framework import generics, permissions
-from .models import Commodity, Parameter
+from .models import Commodity, Parameter, Grade
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import filters
-from .serializers import CommodityListSerializer, CommodityCreateSerializer, ParameterSerializer, ParameterCreateSerializer
-from .serializers import ParameterUpdateSerializer, GradeCreateSerializer
+from .serializers import CommodityListSerializer, CommodityCreateSerializer, ParameterSerializer, GradeUpdateSerializer
+from .serializers import ParameterUpdateSerializer, GradeCreateSerializer, ParameterCreateSerializer
 
 
 class CommodityListAPIView(generics.ListAPIView):
@@ -16,12 +16,12 @@ class CommodityListAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
 
-class CommodityCreateView(generics.CreateAPIView):
+class CommodityCreateAPIView(generics.CreateAPIView):
     serializer_class = CommodityCreateSerializer
     permission_classes = [permissions.IsAdminUser]
 
 
-class CommodityUpdateView(generics.UpdateAPIView):
+class CommodityUpdateAPIView(generics.UpdateAPIView):
     queryset = Commodity.active_objects.all()
     serializer_class = CommodityCreateSerializer
     permission_classes = [permissions.IsAdminUser]
@@ -41,7 +41,6 @@ class CommodityDeleteAPIView(generics.DestroyAPIView):
         return super().destroy(request, *args, **kwargs)
 
 
-
 class ParameterListAPIView(generics.ListAPIView):
     queryset = Parameter.active_objects.all()
     serializer_class = ParameterSerializer
@@ -59,7 +58,7 @@ class ParameterListAPIView(generics.ListAPIView):
         return Response(parameters.data)
 
 
-class ParameterCreateView(generics.CreateAPIView):
+class ParameterCreateAPIView(generics.CreateAPIView):
     serializer_class = ParameterCreateSerializer
     permission_classes = [permissions.IsAdminUser]
 
@@ -68,7 +67,7 @@ class ParameterDetailAPIView(generics.RetrieveAPIView):
     queryset = Parameter.active_objects.all()
     serializer_class = ParameterSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'id'
+    lookup_field = 'pk'
 
 
 class ParameterUpdateAPIView(generics.UpdateAPIView):
@@ -91,7 +90,27 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
         return super().destroy(request, *args, **kwargs)
 
 
-class GradeCreateAPIView(generics.CreateAPIView):
+class CommodityGradeCreateAPIView(generics.CreateAPIView):
     serializer_class = GradeCreateSerializer
     permission_classes = [permissions.IsAdminUser]
+
+
+class CommodityGradeListAPIView(generics.ListView):
+    queryset = Grade.objects.all()
+    serializer_class = ParameterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+
+class CommodityGradeDetailAPIView(generics.DetailView):
+    queryset = Grade.objects.all()
+    serializer_class = ParameterSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'pk'
+
+
+class CommodityGradeUpdateAPIView(generics.UpdateAPIView):
+    queryset = Parameter.active_objects.all()
+    serializer_class = GradeUpdateSerializer
+    permission_classes = [permissions.IsAdminUser]
+    lookup_url_kwarg = 'pk' 
 

@@ -3,7 +3,7 @@ from account_app.views import UserRegistrationAPIView, LoginAPIView, LogoutAPIVi
 from account_app.views import  SetPasswordApiView, ProfileListAPIView, ProfileDetailAPIView, ProfileUpdateAPIView
 
 urlpatterns = [
-    path('api/register/', UserRegistrationAPIView.as_view(), name='user-registration'),
+    path('register/', UserRegistrationAPIView.as_view(), name='user-registration'),
     path('login/', LoginAPIView.as_view(), name='user-login'),
     path('logout/', LogoutAPIView.as_view(), name='logout'),
     path('forgot_password/', ForgotPasswordApiView.as_view(),name='forgot_password'),

@@ -46,10 +46,17 @@ class GradeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Grade
-        fields = ['commodity', 'parameter', 'value']
+        fields = [ 'name',  'commodity', 'parameter', 'value']
 
     def create(self, validated_data):
         parameter_data = validated_data.pop('parameter')
         parameter = Parameter.objects.get(name=parameter_data)
         grade = Grade.objects.create(parameter=parameter, **validated_data)
         return grade
+
+
+class GradeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grade
+        fields = [ 'value']
+

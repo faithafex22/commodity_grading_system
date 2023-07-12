@@ -74,12 +74,13 @@ class CommodityParameter(models.Model):
 
 
 class Grade(models.Model):
+    name = models.CharField(max_length=10, blank=True, null=True)
     commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
     parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
     value = models.DecimalField(max_digits=3, decimal_places=1)
 
     def __str__(self):
-        return f"{self.commodity} - {self.parameter} - {self.value}"
+        return f"{self.name}{self.commodity}"
 
 
 

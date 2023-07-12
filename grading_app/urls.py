@@ -11,9 +11,9 @@ urlpatterns = [
     path('parameter/create/', views.ParameterCreateAPIView.as_view(), name='parameter_create'),
     path('parameter/<int:pk>/update', views.ParameterUpdateAPIView.as_view(), name='parameter_update'),
     path('parameter/<int:pk>/delete', views.ParameterDeleteAPIView.as_view(), name='parameter_delete'),
-    path('commodity/grade_create', views.CommodityCreateAPIView.as_view(), name='commodity_grade_create'),
-    path('commodity/grades', views.CommodityListAPIView.as_view(), name='commodity_grade_list'),
-    path('commodity/grade/<int:pk>/', views.CommodityCreateAPIView.as_view(), name='commodity_grade_detail'),
-    path('commodity/grade/<int:pk>/update/', views.CommodityCreateAPIView.as_view(), name='commodity_grade_update'),
+    path('commodity/grade_create', views.CommodityGradeCreateAPIView.as_view(), name='commodity_grade_create'),
+    path('commodity/grades', views.CommodityGradeListAPIView.as_view(), name='commodity_grade_list'),
+    path('commodity/grade/<int:pk>/', views.CommodityGradeCreateAPIView.as_view(), name='commodity_grade_detail'),
+    path('commodity/grade/<int:pk>/update/', views.CommodityGradeCreateAPIView.as_view(), name='commodity_grade_update'),
     
     ]

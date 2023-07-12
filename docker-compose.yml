@@ -4,10 +4,11 @@ services:
     build: .
     #image: 7957bc38925a
     restart: on-failure
-    command: bash -c "python manage.py collectstatic --no-input && python manage.py runserver"
+    command: bash -c "python manage.py collectstatic --no-input && gunicorn -b 0.0.0.0:8040 commodity_grading_system.wsgi"
     volumes:
      - ./.env:/home/app/.env
      - ./static/:/home/app/staticfiles
      - ./media/:/home/app/media
     ports:
-     - "8000:8000"
+     - "8040:8040"
+

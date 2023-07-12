@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 #from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
@@ -30,7 +30,7 @@ class CustomUserManager(BaseUserManager):
 
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField( max_length=254, unique=True)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)

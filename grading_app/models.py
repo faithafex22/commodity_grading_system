@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 class ActiveManager(models.Manager):
@@ -25,10 +26,15 @@ class Parameter(models.Model):
     nonactive_objects = NonActiveManager()
 
 
+class Selected_Parameter(models.Model):
+    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
+    value =  models.DecimalField(max_digits=3, decimal_places=1)
+    
+
 class Commodity(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='grading_app/media', null=True, blank=True)
-    parameters = models.ManyToManyField(Parameter, through='CommodityParameter')
+    parameters = models.ManyToManyField(Selected_Parameter)
     date_created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
@@ -52,27 +58,15 @@ class Commodity(models.Model):
         else:
             return 'Not accepted'
 
-
-
-class CommodityParameter(models.Model):
-    commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
-    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    Parameter_value = models.DecimalField(max_digits=3, decimal_places=1, default=0)
-
-
-    def __str__(self):
-        return f"{self.commodity} - {self.parameter}"
-
-
-
+    
 class Grade(models.Model):
     name = models.CharField(max_length=100, default='Input_grade_name')
     commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
-    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    value_range = models.CharField(max_length=100, default='input_parameter_value_range') 
+    selected_parameters = models.ManyToManyField(Selected_Parameter)
 
     def __str__(self):
-        return f"{self.name}{self.commodity}"
+        return f"{self.name} - {self.commodity}"
+
 
 
 

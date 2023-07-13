@@ -54,18 +54,11 @@ class Commodity(models.Model):
 
 
 
-class Value(models.Model):
-    value = models.DecimalField(max_digits=3, decimal_places=1)
-
-    def __str__(self):
-        return  self.value
-
-
-
 class CommodityParameter(models.Model):
     commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
     parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    value = models.ForeignKey(Value, on_delete=models.CASCADE)
+    Parameter_value = models.DecimalField(max_digits=3, decimal_places=1, default=0)
+
 
     def __str__(self):
         return f"{self.commodity} - {self.parameter}"
@@ -73,10 +66,10 @@ class CommodityParameter(models.Model):
 
 
 class Grade(models.Model):
-    name = models.CharField(max_length=10, blank=True, null=True)
+    name = models.CharField(max_length=100, default='Input_grade_name')
     commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
     parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    value = models.DecimalField(max_digits=3, decimal_places=1)
+    value_range = models.CharField(max_length=100, default='input_parameter_value_range') 
 
     def __str__(self):
         return f"{self.name}{self.commodity}"

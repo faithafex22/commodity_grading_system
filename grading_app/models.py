@@ -55,11 +55,10 @@ class Commodity(models.Model):
 
 
 class Value(models.Model):
-    parameter = models.OneToOneField(Parameter, on_delete=models.CASCADE)
     value = models.DecimalField(max_digits=3, decimal_places=1)
 
     def __str__(self):
-        return f"{self.parameter} - {self.value}"
+        return  self.value
 
 
 

@@ -130,13 +130,14 @@ class ProfileListAPIView(ListAPIView):
     
 
 class ProfileDetailAPIView(RetrieveAPIView):
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.active_objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
     
-    def get_queryset(self):
-            return CustomUser.active_objects.filter(pk=self.request.user.pk)
+    def get_object(self):
+        return self.request.user
 
+    
 
 class ProfileUpdateAPIView(UpdateAPIView):
     queryset = CustomUser.active_objects.all()

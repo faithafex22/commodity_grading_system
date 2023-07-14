@@ -1,10 +1,11 @@
 from rest_framework import serializers
-from .models import Commodity, Parameter, Grade
+from .models import Commodity, Parameter, Grade,  GradeParameter
+
 
 class CommodityListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Commodity
-        fields = ['name', 'image']
+   class Meta:
+       model = Commodity
+       fields = ['name', 'image']
 
 
 class CommodityCreateSerializer(serializers.ModelSerializer):
@@ -12,8 +13,8 @@ class CommodityCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Commodity
         fields = ['name', 'parameters', 'image']
-
-
+        
+    
 class ParameterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parameter
@@ -22,41 +23,34 @@ class ParameterCreateSerializer(serializers.ModelSerializer):
 
 class CommodityNameSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Commodity
-        fields = ['name']
+      model = Commodity
+      fields = ['name']
 
         
-class ParameterSerializer(serializers.ModelSerializer):
+class ParameterListSerializer(serializers.ModelSerializer):
     commodities = CommodityNameSerializer(many=True, read_only=True)
     class Meta:
-        model = Parameter
-        fields = [ 'name', 'date_created', 'commodities']
+       model = Parameter
+       fields = [ 'name', 'date_created', 'commodities']
 
 
 class ParameterUpdateSerializer(serializers.ModelSerializer):
     commodities = CommodityNameSerializer(many=True)
     class Meta:
-        model = Parameter
-        fields = [ 'name', 'date_created', 'commodities']
+       model = Parameter
+       fields = [ 'name', 'date_created', 'commodities']
 
 
-class GradeCreateSerializer(serializers.ModelSerializer):
-    parameter = serializers.StringRelatedField()
-    commodity = serializers.StringRelatedField()
+class GradeParameterSerializer(serializers.ModelSerializer):
+   class Meta:
+       model = GradeParameter
+       fields = ['parameter', 'min_value', 'max_value']
+   
 
+class CommodityGradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
-        fields = [ 'name',  'commodity', 'parameter', 'value']
-
-    def create(self, validated_data):
-        parameter_data = validated_data.pop('parameter')
-        parameter = Parameter.objects.get(name=parameter_data)
-        grade = Grade.objects.create(parameter=parameter, **validated_data)
-        return grade
+        fields = ['name', 'commodity', 'grade_parameter']
 
 
-class GradeUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Grade
-        fields = [ 'value']
 

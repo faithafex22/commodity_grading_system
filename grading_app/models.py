@@ -24,17 +24,12 @@ class Parameter(models.Model):
     objects = models.Manager()  
     active_objects = ActiveManager()
     nonactive_objects = NonActiveManager()
-
-
-class Selected_Parameter(models.Model):
-    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
-    value =  models.DecimalField(max_digits=3, decimal_places=1)
     
 
 class Commodity(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='grading_app/media', null=True, blank=True)
-    parameters = models.ManyToManyField(Selected_Parameter)
+    parameters = models.ManyToManyField(Parameter)
     date_created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
@@ -62,11 +57,31 @@ class Commodity(models.Model):
 class Grade(models.Model):
     name = models.CharField(max_length=100, default='Input_grade_name')
     commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
-    selected_parameters = models.ManyToManyField(Selected_Parameter)
+    grade_parameter = models.ForeignKey('GradeParameter', on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+    
 
     def __str__(self):
         return f"{self.name} - {self.commodity}"
 
+    objects = models.Manager()
+    active_objects = ActiveManager()
+    nonactive_objects = NonActiveManager()
+
+
+class GradeParameter(models.Model):
+    parameter = models.ForeignKey(Parameter, on_delete=models.CASCADE)
+    min_value =  models.DecimalField(max_digits=3, decimal_places=1)
+    max_value =  models.DecimalField(max_digits=3, decimal_places=1)
+    is_active = models.BooleanField(default=True)
+    
+
+    def __str__(self):
+        return f"{self.parameter}"
+
+    objects = models.Manager()
+    active_objects = ActiveManager()
+    nonactive_objects = NonActiveManager()
 
 
 

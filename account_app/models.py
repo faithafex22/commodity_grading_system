@@ -76,6 +76,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         last_user = CustomUser.active_objects.order_by('-id').first()
         if last_user is None:
             return '0001'
-        last_user_id = last_user.id.split('/')[-1]
+        last_user_id = str(last_user.id).split('/')[-1]
         new_number = str(int(last_user_id) + 1).zfill(4)
         return new_number

@@ -20,7 +20,7 @@ import string
 class UserRegistrationAPIView(CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny,]
-    parser_classes = [MultiPartParser, FormParser]
+    #parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

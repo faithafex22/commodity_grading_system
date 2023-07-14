@@ -127,17 +127,14 @@ class ProfileListAPIView(ListAPIView):
     def get_queryset(self):
         return CustomUser.active_objects.all()
 
+    
+
 class ProfileDetailAPIView(RetrieveAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
-    lookup_field = 'user_id'
-    lookup_url_kwarg = 'user_id'
-
+    
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return CustomUser.active_objects.all()
-        else:
             return CustomUser.active_objects.filter(pk=self.request.user.pk)
 
 

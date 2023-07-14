@@ -8,21 +8,22 @@ from django.contrib.auth import authenticate
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
-    confirm_password = serializers.CharField(write_only=True, required=True)
+    # confirm_password = serializers.CharField(write_only=True, required=True)
     phone_number = serializers.CharField()
     state_code = serializers.CharField()
     user_picture = serializers.ImageField()
 
-    def validate(self, attrs):
-        if attrs['password'] != attrs['confirm_password']:
-            raise serializers.ValidationError(
-                {"password": "Password fields didn't match."})
+    def validate(self, data):
+            password = data['password']
+            confirm_password = self.context['request'].data['confirm_password']
+            if password != confirm_password:
+                raise serializers.ValidationError("Passwords do not match")
+            return data
 
-        return attrs
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'password', 'confirm_password', 'first_name', 'last_name',  'state_code', 'phone_number', 'date_joined', 'user_picture']
+        fields = ['email', 'password', 'first_name', 'last_name',  'state_code', 'phone_number', 'date_joined', 'user_picture']
 
 
 class LoginSerializer(serializers.Serializer):

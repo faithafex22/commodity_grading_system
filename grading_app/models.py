@@ -54,15 +54,14 @@ class Commodity(models.Model):
             return 'Not accepted'
 
     
-class Grade(models.Model):
+class CommodityGrade(models.Model):
     name = models.CharField(max_length=100, default='Input_grade_name')
-    commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE)
-    grade_parameter = models.ForeignKey('GradeParameter', on_delete=models.CASCADE)
+    grade_parameter = models.ManyToManyField('GradeParameter')
     is_active = models.BooleanField(default=True)
     
 
     def __str__(self):
-        return f"{self.name} - {self.commodity}"
+        return f"{self.name}"
 
     objects = models.Manager()
     active_objects = ActiveManager()

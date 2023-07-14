@@ -143,7 +143,7 @@ class ProfileDetailAPIView(RetrieveAPIView):
 
 
 class ProfileUpdateAPIView(UpdateAPIView):
-    queryset = CustomUser.objects.all()
+    queryset = CustomUser.active_objects.all()
     serializer_class = ProfileUpdateSerializer
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]

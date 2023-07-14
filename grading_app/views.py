@@ -124,7 +124,7 @@ class CommodityGradeDetailAPIView(generics.RetrieveAPIView):
     lookup_field = 'pk'
     
 
-class CommodityGradeUpdateView(generics.UpdateAPIView):
+class CommodityGradeUpdateAPIView(generics.UpdateAPIView):
     queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeUpdateSerializer
 

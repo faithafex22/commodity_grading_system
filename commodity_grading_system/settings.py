@@ -156,12 +156,12 @@ DATABASES = {
 }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-      'NAME': BASE_DIR / 'db14.sqlite3',
-    }
- }
+#DATABASES = {
+    #'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+      #'NAME': BASE_DIR / 'db14.sqlite3',
+    #}
+ #}
 
 
 

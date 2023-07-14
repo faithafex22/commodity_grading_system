@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(validators=[UserValidationMixin.validate_email])
+    email = serializers.EmailField()
     password = serializers.CharField(write_only=True, validators=[UserValidationMixin.validate_password])
     confirm_password = serializers.CharField(write_only=True, required=True)
     phone_number = serializers.CharField(validators=[UserValidationMixin.validate_phone_number])

@@ -73,7 +73,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return user_id
 
     def get_unique_number(self):
-        last_user = User.active_users.order_by('-id').first()
+        last_user = CustomUser.active_objects.order_by('-id').first()
         if last_user is None:
             return '0001'
         last_user_id = last_user.user_id.split('/')[-1]

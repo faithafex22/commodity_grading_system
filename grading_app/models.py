@@ -56,7 +56,7 @@ class Commodity(models.Model):
     
 class CommodityGrade(models.Model):
     name = models.CharField(max_length=100, default='Input_grade_name')
-    grade_parameter = models.ManyToManyField('GradeParameter')
+    grade_parameter = models.ForeignKey('GradeParameter',  null=True, on_delete=models.CASCADE, )
     is_active = models.BooleanField(default=True)
     
 

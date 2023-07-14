@@ -125,8 +125,7 @@ class ProfileListAPIView(ListAPIView):
     permission_classes = [IsAdminUser]
 
     def get_queryset(self):
-        return CustomUser.active_objects.all()
-
+        return CustomUser.objects.active_objects.all()
 
 class ProfileDetailAPIView(RetrieveAPIView):
     queryset = CustomUser.objects.all()

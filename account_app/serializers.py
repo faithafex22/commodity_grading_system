@@ -68,7 +68,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ['first_name', 'last_name', 'email', 'userid', 'phone_number', 'date_joined', 'user_picture']
         read_only_fields = ['email', 'user_id', 'date_joined']
 
-    def get_user_id(self, obj):
+    def get_userid(self, obj):
         return obj.generate_user_id()
 
 

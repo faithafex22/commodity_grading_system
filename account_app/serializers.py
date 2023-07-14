@@ -7,11 +7,11 @@ from django.contrib.auth import authenticate
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True, validators=[UserValidationMixin.validate_password])
+    password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True, required=True)
-    phone_number = serializers.CharField(validators=[UserValidationMixin.validate_phone_number])
-    state_code = serializers.CharField(validators=[UserValidationMixin.validate_state_code])
-    user_picture = serializers.ImageField(validators=[UserValidationMixin.validate_user_picture])
+    phone_number = serializers.CharField()
+    state_code = serializers.CharField()
+    user_picture = serializers.ImageField()
 
     def validate(self, attrs):
         if attrs['password'] != attrs['confirm_password']:

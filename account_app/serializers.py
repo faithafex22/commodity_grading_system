@@ -104,3 +104,4 @@ class ResetPasswordSerializer(serializers.Serializer):
         if attrs['new_password'] != attrs['confirm_new_password']:
             raise serializers.ValidationError('Passwords do not match')
         return attrs
+

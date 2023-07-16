@@ -230,6 +230,8 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
 smtp_connection = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
+smtp_connection.starttls()
+smtp_connection.login(EMAIL_HOST_USER , EMAIL_HOST_PASSWORD )
 
 #celerybeat configuration
 #CELERY_BROKER_URL = 'redis://127.0.0.1:6379'

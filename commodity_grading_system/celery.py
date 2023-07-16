@@ -2,9 +2,9 @@ import os
 from celery import Celery
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Expertcard.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'commodity_grading_system.settings')
 
-app = Celery('Expertcard')
+app = Celery('commodity_grading_system')
 
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.

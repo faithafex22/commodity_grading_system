@@ -43,18 +43,6 @@ class UserValidationMixin:
             raise ValidationError("Phone number must be in a valid African format.")
 
 
-    def validate_user_picture(self, value):
-        image_validator = FileExtensionValidator(allowed_extensions=['jpg','png'])
-        if not value:
-                raise serializers.ValidationError("You have to upload your picture.")
-        if value and not image_validator(value):
-            allowed_extensions = ', '.join(image_validator.allowed_extensions)
-            raise serializers.ValidationError(
-                    f"Unsupported file extension. Allowed extensions are: {allowed_extensions}."
-                )
-        return value
-
-
     def validate_state_code(self, value):
         if not value:
             raise serializers.ValidationError("You have to enter your state code.")

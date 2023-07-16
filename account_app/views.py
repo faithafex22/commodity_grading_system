@@ -94,7 +94,7 @@ class ForgotPasswordApiView(APIView):
 
                 # Send the verification code to the user's email
                 mail_subject = "Password Reset Verification Code"
-                message = f"Hi {user.username},\n\n" \
+                message = f"Hi {user.first_name},\n\n" \
                           f"Please use the following verification code to reset your password: {verification_code}"
                 send_mail(subject=mail_subject, message=message, from_email=EMAIL_HOST_USER, recipient_list=[user.email])
 

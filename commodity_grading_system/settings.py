@@ -206,7 +206,7 @@ AUTH_USER_MODEL = 'account_app.CustomUser'
 
 MEDIA_URL= 'media/'
 
-MEDIA_ROOT=os.path.join(BASE_DIR /'media')
+MEDIA_ROOT=os.path.join(BASE_DIR     /'media')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -230,10 +230,10 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
 
 #celerybeat configuration
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Lagos/Africa'
+#CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+#CELERY_ACCEPT_CONTENT = ['application/json']
+#CELERY_RESULT_SERIALIZER = 'json'
+#CELERY_TASK_SERIALIZER = 'json'
+#CELERY_TIMEZONE = 'Lagos/Africa'
 
 

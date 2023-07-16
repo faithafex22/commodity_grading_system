@@ -17,7 +17,13 @@ class CommodityListAPIView(generics.ListAPIView):
     search_fields = ['name']
     permission_classes = [permissions.IsAuthenticated]
     
-    
+
+class CommodityDetailAPIView(generics.RetrieveAPIView):
+   queryset = Commodity.active_objects.all()
+   serializer_class = CommodityCreateSerializer
+   permission_classes = [permissions.IsAuthenticated]
+   lookup_field = 'pk'
+
 
 class CommodityCreateAPIView(generics.CreateAPIView):
     serializer_class = CommodityCreateSerializer
@@ -55,7 +61,6 @@ class ParameterListAPIView(generics.ListAPIView):
    filter_backends = [filters.SearchFilter]
    search_fields = ['name']
 
-   
    def list(self, request, *args, **kwargs):
        queryset = self.filter_queryset(self.get_queryset())
        page = self.paginate_queryset(queryset)

@@ -44,11 +44,11 @@ class GradeParameterSerializer(serializers.ModelSerializer):
 
 
 class CommodityGradeSerializer(serializers.ModelSerializer):
-    grade_parameter = GradeParameterSerializer(many=True)
+    grade_parameters = GradeParameterSerializer(many=True)
 
     class Meta:
         model = CommodityGrade
-        fields = ('name', 'grade_parameter')
+        fields = ('name', 'grade_parameters')
 
     def create(self, validated_data):
         grade_parameters_data = validated_data.pop('grade_parameters', [])

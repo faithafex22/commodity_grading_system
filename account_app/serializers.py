@@ -39,7 +39,7 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, data):
         email = data.get('email')
         password = data.get('password')
-        user = CustomUser.active_objects.filter(email=email, is_trusted=True).first()
+        user = CustomUser.active_objects.filter(email=email).first()
         if not user or not user.check_password(password):
             raise serializers.ValidationError('Invalid login credentials or not a verified user')
         request = self.context.get('request')

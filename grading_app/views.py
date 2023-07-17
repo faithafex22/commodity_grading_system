@@ -110,12 +110,21 @@ class CommodityGradeCreateAPIView(generics.CreateAPIView):
     serializer_class = CommodityGradeSerializer
 
     def perform_create(self, serializer):
-        commodity_name = self.kwargs['commodity_name']
-        try:
-            commodity = Commodity.objects.get(name=commodity_name)
-            serializer.save(commodity=commodity)
-        except Commodity.DoesNotExist:
-            raise NotFound("Commodity not found")
+        commodity_grade = serializer.data
+        commodity = self.kwargs['commodity_name']
+        name = self.context['request'].data['name']
+        #CommodityGrade.objects.create()
+
+        response = {
+            "message": "commodity grade created successfully"
+            }
+        return Response(response, status=status.HTTP_201_CREATED)
+    
+        # try:
+        #     commodity = Commodity.active_objects.get(name=commodity_name)
+        #     serializer.save(commodity=commodity)
+        # except Commodity.DoesNotExist:
+        #     raise NotFound("Commodity not found")
 
     def post(self, request, *args, **kwargs):
         commodity_name = self.kwargs['commodity_name']

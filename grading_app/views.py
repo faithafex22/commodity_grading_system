@@ -77,7 +77,6 @@ class ParameterCreateAPIView(generics.CreateAPIView):
     permission_classes = [permissions.IsAdminUser]
     
 
-
 class ParameterDetailAPIView(generics.RetrieveAPIView):
    queryset = Parameter.active_objects.all()
    serializer_class = ParameterListSerializer
@@ -103,7 +102,7 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
        instance.is_active = False  
        instance.save()
        self.perform_destroy(instance)
-       return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTET)
+       return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
 
 
    

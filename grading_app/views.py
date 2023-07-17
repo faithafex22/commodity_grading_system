@@ -111,7 +111,7 @@ class CommodityGradeCreateAPIView(generics.CreateAPIView):
     serializer_class = CommodityGradeSerializer
 
     def perform_create(self, serializer):
-        commodity_name = self.kwargs['commodity_name']
+        commodity_name = self.kwargs['name']
         serializer.save(commodity_name=commodity_name)
 
         

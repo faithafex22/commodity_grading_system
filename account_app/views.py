@@ -5,6 +5,8 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from .serializers import UserSerializer, LoginSerializer,  EmailResetPasswordSerializer, ResetPasswordSerializer 
 from .serializers import ProfileSerializer, ProfileUpdateSerializer 
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView
@@ -39,18 +41,10 @@ class UserRegistrationAPIView(CreateAPIView):
 
 
 
-class LoginAPIView(APIView):
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
+class LoginAPIView(TokenObtainPairView):
+    serializer_class = LoginSerializer
 
-        try:
-            data = serializer.validated_data
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except serializers.ValidationError as e:
-            return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
         
-
 
 class LogoutAPIView(APIView):
     def post(self, request):

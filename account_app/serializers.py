@@ -26,43 +26,34 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['email', 'password', 'first_name', 'last_name',  'state_code', 'phone_number', 'date_joined', 'user_picture']
 
 
+
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    password = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def get_token(self, user):
+        refresh = RefreshToken.for_user(user)
+        token = str(refresh.access_token)
+        return token
 
     def validate(self, data):
         email = data.get('email')
         password = data.get('password')
+        user = CustomUser.active_objects.filter(email=email, is_trusted=True).first()
+        if not user or not user.check_password(password):
+            raise serializers.ValidationError('Invalid login credentials or not a verified user')
+        request = self.context.get('request')
+        token = self.get_token(user)
+        
+        response = {
+            'email': email,
+            'first_name':user.first_name,
+            'profile_picture': user.profile_picture.url,
+            'last_name': user.last_name,
+            'token': token,
+        }
+        return response
 
-        if email and password:
-            user = authenticate(username=email, password=password)
-
-            if user:
-                if not user.is_active:
-                    raise serializers.ValidationError("User account is inactive.")
-
-                refresh = RefreshToken.for_user(user)
-
-                data['access_token'] = str(refresh.access_token)
-                data['refresh_token'] = str(refresh)
-                data['first_name'] = user.first_name
-                data['last_name'] = user.last_name
-                return data
-            else:
-                raise serializers.ValidationError("Invalid email or password.")
-        else:
-            raise serializers.ValidationError("Email and password are required.")
-
-    # def to_representation(self, instance):
-    #     user = self.context['request'].user
-
-    #     return {
-    #         'access_token': instance['access_token'],
-    #         'refresh_token': instance['refresh_token'],
-    #         'message': 'User login successful.',
-    #         'first_name': user.first_name,
-    #         'last_name': user.last_name
-    #     }
 
 
 class ProfileSerializer(serializers.ModelSerializer):

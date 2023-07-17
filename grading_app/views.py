@@ -112,14 +112,14 @@ class CommodityGradeCreateAPIView(generics.CreateAPIView):
     serializer_class = CommodityGradeSerializer
     permission_classes = [permissions.IsAuthenticated]
     
-    def perform_create(self):
+    def perform_create(self, serializer):
+        serializer.save()
         response = {
             "message":"Commodity grades created successfully"
         }
         return Response(response, status=status.HTTP_201_CREATED)
             
         
-
 
 class CommodityGradeListAPIView(generics.ListAPIView):
     queryset = CommodityGrade.active_objects.all()
@@ -131,7 +131,7 @@ class CommodityGradeDetailAPIView(generics.RetrieveAPIView):
     queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'name'
+    lookup_field = 'commodity_name'
     
 
 class CommodityGradeUpdateAPIView(generics.UpdateAPIView):

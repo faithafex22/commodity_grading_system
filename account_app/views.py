@@ -83,7 +83,7 @@ class ForgotPasswordApiView(APIView):
             if CustomUser.active_objects.filter(email__exact=email).exists():
                 user = CustomUser.objects.get(email=email)
 
-                verification_code = ''.join(random.choices(string.digits, k=6))
+                verification_code = ''.join(random.choices(string.digits, k=4))
                 print(verification_code)
                 user.verification_code = int(verification_code)
                 user.save()

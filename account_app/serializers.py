@@ -45,23 +45,24 @@ class LoginSerializer(serializers.Serializer):
 
                 data['access_token'] = str(refresh.access_token)
                 data['refresh_token'] = str(refresh)
-
+                data['first_name'] = user.first_name
+                data['last_name'] = user.last_name
                 return data
             else:
                 raise serializers.ValidationError("Invalid email or password.")
         else:
             raise serializers.ValidationError("Email and password are required.")
 
-    def to_representation(self, instance):
-        user = self.context['request'].user
+    # def to_representation(self, instance):
+    #     user = self.context['request'].user
 
-        return {
-            'access_token': instance['access_token'],
-            'refresh_token': instance['refresh_token'],
-            'message': 'User login successful.',
-            'first_name': user.first_name,
-            'last_name': user.last_name
-        }
+    #     return {
+    #         'access_token': instance['access_token'],
+    #         'refresh_token': instance['refresh_token'],
+    #         'message': 'User login successful.',
+    #         'first_name': user.first_name,
+    #         'last_name': user.last_name
+    #     }
 
 
 class ProfileSerializer(serializers.ModelSerializer):

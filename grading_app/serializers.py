@@ -59,6 +59,7 @@ class CommodityGradeSerializer(serializers.ModelSerializer):
             max_value = param_data['max_value']
             grade_parameter = GradeParameter.objects.create(parameter=parameter, min_value=min_value, max_value=max_value)
             commodity_grade = CommodityGrade.objects.create(name=validated_data['name'], grade_parameter = grade_parameter)
+            commodity_grade.grade_parameter.add(grade_parameter)
 
         return commodity_grade
 

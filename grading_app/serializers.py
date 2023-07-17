@@ -50,7 +50,14 @@ class CommodityGradeSerializer(serializers.ModelSerializer):
         model = CommodityGrade
         fields = ('name', 'grade_parameter')
 
+    def create(self, validated_data):
+        grade_parameters_data = validated_data.pop('grade_parameters', [])
+        commodity_grade = CommodityGrade.objects.create(**validated_data)
 
+        for parameter_data in grade_parameters_data:
+            GradeParameter.objects.create(commodity_grade=commodity_grade, **parameter_data)
+
+        return commodity_grade
 
 
 

@@ -110,15 +110,18 @@ class CommodityGradeCreateAPIView(generics.CreateAPIView):
     queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeSerializer
 
-    def perform_create(self, serializer):
-        grade_parameters = self.request.data.get('grade_parameters', [])
-        grade = serializer.save()
+    def create(self, validated_data):
+        grade_parameter_data = validated_data.pop('grade_parameter')
+        commodity_grade = CommodityGrade.active_objects.create(**validated_data)
 
-        for param in grade_parameters:
-            grade_parameter = GradeParameter.active_objects.get(id=param)
-            grade.grade_parameter.add(grade_parameter)
+        for param_data in grade_parameter_data:
+            parameter = param_data['parameter']
+            min_value = param_data['min_value']
+            max_value = param_data['max_value']
+            GradeParameter.objects.create(commodity_grade=commodity_grade, parameter=parameter, min_value=min_value, max_value=max_value)
 
-        grade.save()
+        return commodity_grade
+
         
         
 class CommodityGradeListAPIView(generics.ListAPIView):
@@ -131,7 +134,7 @@ class CommodityGradeDetailAPIView(generics.RetrieveAPIView):
     queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'pk'
+    lookup_field = 'name'
     
 
 class CommodityGradeUpdateAPIView(generics.UpdateAPIView):

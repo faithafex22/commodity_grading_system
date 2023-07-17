@@ -16,7 +16,6 @@ class CommodityCreateSerializer(serializers.ModelSerializer):
         fields = ['name', 'parameters', 'image']
         
     
-
 class ParameterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parameter

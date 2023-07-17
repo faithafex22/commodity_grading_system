@@ -112,8 +112,12 @@ class CommodityGradeCreateAPIView(generics.CreateAPIView):
     serializer_class = CommodityGradeSerializer
     permission_classes = [permissions.IsAuthenticated]
     
-    def perform_create(self, serializer):
-        serializer.save()
+    def perform_create(self):
+        response = {
+            "message":"Commodity grades created successfully"
+        }
+        return Response(response, status=status.HTTP_201_CREATED)
+            
         
 
 

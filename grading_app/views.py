@@ -105,19 +105,15 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
        return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
 
 
- 
-
 class CommodityGradeCreateAPIView(generics.CreateAPIView):
-    queryset = CommodityGrade.active_objects.all()
+    queryset = CommodityGrade.objects.all()
     serializer_class = CommodityGradeSerializer
 
     def perform_create(self, serializer):
         commodity_name = self.kwargs['commodity_name']
         serializer.save(commodity_name=commodity_name)
-
         
   
-
 class CommodityGradeListAPIView(generics.ListAPIView):
     queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeListSerializer

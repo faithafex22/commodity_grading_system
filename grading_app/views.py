@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework import filters
 from rest_framework.exceptions import NotFound
 from .serializers import CommodityListSerializer, CommodityCreateSerializer, ParameterCreateSerializer , CommodityGradeUpdateSerializer
-from .serializers import ParameterListSerializer, GradeParameterSerializer, CommodityGradeSerializer, CommodityGradeListSerializer
+from .serializers import ParameterListSerializer,  CommodityGradeSerializer, CommodityGradeListSerializer
 
 
 

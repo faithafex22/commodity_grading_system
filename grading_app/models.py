@@ -40,18 +40,18 @@ class Commodity(models.Model):
     active_objects = ActiveManager()
     nonactive_objects = NonActiveManager()
 
-    @property
-    def grade(self):
-        average_value = self.parameters.aggregate(average=models.Avg('commodityparameter__value'))['average']
-        
-        if average_value >= 0 and average_value <= 5:
-            return 1
-        elif average_value >= 6 and average_value <= 10:
-            return 2
-        elif average_value >= 11 and average_value <= 15:
-            return 3
-        else:
-            return 'Not accepted'
+    #@property
+    #def grade(self):
+    #    average_value = self.parameters.aggregate(average=models.Avg('commodityparameter__value'))['average']
+    #    
+    #    if average_value >= 0 and average_value <= 5:
+    #        return 1
+    #    elif average_value >= 6 and average_value <= 10:
+    #        return 2
+    #    elif average_value >= 11 and average_value <= 15:
+    #        return 3
+    #    else:
+    #        return 'Not accepted'
 
     
 class CommodityGrade(models.Model):

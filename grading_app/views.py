@@ -106,52 +106,27 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
        return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
    
 
-
-class CommodityGradeCreateAPIView(generics.CreateAPIView):
-    queryset = CommodityGrade.active_objects.all()
+class CommodityGradeListCreateView(generics.ListCreateAPIView):
+    queryset = CommodityGrade.objects.all()
     serializer_class = CommodityGradeSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    
+
     def perform_create(self, serializer):
-        serializer.save()
-        response = {
-            "message":"Commodity grades created successfully"
-        }
-        return Response(response, status=status.HTTP_201_CREATED)
-            
-        
-
-class CommodityGradeListAPIView(generics.ListAPIView):
-    queryset = CommodityGrade.active_objects.all()
-    serializer_class = CommodityGradeListSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
+        grade_parameters_data = self.request.data.pop('grade_parameters', [])
+        grade_parameters = []
+        for parameter_data in grade_parameters_data:
+            grade_parameters.append(GradeParameter.objects.get_or_create(**parameter_data)[0])
+        serializer.save(grade_parameters=grade_parameters)
     
-class CommodityGradeDetailAPIView(generics.RetrieveAPIView):
-    queryset = CommodityGrade.active_objects.all()
+
+class CommodityGradeRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CommodityGrade.objects.all()
     serializer_class = CommodityGradeSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'commodity_name'
-    
-
-class CommodityGradeUpdateAPIView(generics.UpdateAPIView):
-    queryset = CommodityGrade.active_objects.all()
-    serializer_class = CommodityGradeUpdateSerializer
 
     def perform_update(self, serializer):
-        commodity_grade = self.get_object()
-        grade_parameters_data = self.request.data.get('grade_parameter', [])
+        grade_parameters_data = self.request.data.get('grade_parameters', [])
+        grade_parameters = []
+        for parameter_data in grade_parameters_data:
+            grade_parameters.append(GradeParameter.objects.get_or_create(**parameter_data)[0])
+        serializer.save(grade_parameters=grade_parameters)
 
-        for param_data in grade_parameters_data:
-            parameter = param_data['parameter']
-            min_value = param_data['min_value']
-            max_value = param_data['max_value']
-
-            grade_parameter = commodity_grade.grade_parameter.get(parameter=parameter)
-            grade_parameter.min_value = min_value
-            grade_parameter.max_value = max_value
-            grade_parameter.save()
-
-        serializer.save()
-
-
+    

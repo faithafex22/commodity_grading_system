@@ -83,7 +83,7 @@ class ForgotPasswordApiView(APIView):
                 user.save()
 
                 # Set a timer for 1 minute
-                timer = threading.Timer(300, self.clear_verification_code, args=[user])
+                timer = threading.Timer(800, self.clear_verification_code, args=[user])
                 timer.start()
 
                 # Send the verification code to the user's email

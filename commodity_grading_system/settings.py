@@ -113,8 +113,8 @@ WSGI_APPLICATION = 'commodity_grading_system.wsgi.application'
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,
@@ -153,18 +153,18 @@ SIMPLE_JWT = {
 }
 
 
+# DATABASES = {
+
+#     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),
+# }
+
+
 DATABASES = {
-
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),
-}
-
-
-#DATABASES = {
-    #'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-      #'NAME': BASE_DIR / 'db14.sqlite3',
-    #}
- #}
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+      'NAME': BASE_DIR / 'db14.sqlite3',
+    }
+ }
 
 
 

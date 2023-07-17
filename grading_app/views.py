@@ -104,39 +104,19 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
        instance.save()
        self.perform_destroy(instance)
        return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
+   
 
 
 class CommodityGradeCreateAPIView(generics.CreateAPIView):
+    queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeSerializer
-
-    def perform_create(self, serializer):
-        commodity_grade = serializer.data
-        commodity = self.kwargs['commodity_name']
-        name = self.context['request'].data['name']
-        #CommodityGrade.objects.create()
-
-        response = {
-            "message": "commodity grade created successfully"
-            }
-        return Response(response, status=status.HTTP_201_CREATED)
+    permission_classes = [permissions.IsAuthenticated]
     
-        # try:
-        #     commodity = Commodity.active_objects.get(name=commodity_name)
-        #     serializer.save(commodity=commodity)
-        # except Commodity.DoesNotExist:
-        #     raise NotFound("Commodity not found")
-
-    def post(self, request, *args, **kwargs):
-        commodity_name = self.kwargs['commodity_name']
-        request.data['name'] = commodity_name
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    def perform_create(self, serializer):
+        serializer.save()
+        
 
 
-  
 class CommodityGradeListAPIView(generics.ListAPIView):
     queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeListSerializer

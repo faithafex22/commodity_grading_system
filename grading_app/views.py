@@ -4,6 +4,7 @@ from .models import Commodity, Parameter, CommodityGrade, GradeParameter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework import filters
 from .serializers import CommodityListSerializer, CommodityCreateSerializer, ParameterCreateSerializer , CommodityGradeUpdateSerializer
 from .serializers import ParameterListSerializer, GradeParameterSerializer, CommodityGradeSerializer, CommodityGradeListSerializer
@@ -49,7 +50,9 @@ class CommodityDeleteAPIView(generics.DestroyAPIView):
         instance = self.get_object()
         instance.is_active = False  
         instance.save()
-        return super().destroy(request, *args, **kwargs)
+        self.perform_destroy(instance)
+        return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
+    
 
 
 
@@ -93,12 +96,14 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
    serializer_class = ParameterCreateSerializer
    permission_classes = [permissions.IsAdminUser]
    lookup_url_kwarg = 'pk' 
+   
    def destroy(self, request, *args, **kwargs):
        instance = self.get_object()
        instance.is_active = False  
        instance.save()
-       return super().destroy(request, *args, **kwargs)
-   
+       self.perform_destroy(instance)
+       return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTET)
+
 
    
 class CommodityGradeCreateAPIView(generics.CreateAPIView):

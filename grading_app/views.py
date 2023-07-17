@@ -55,26 +55,27 @@ class CommodityDeleteAPIView(generics.DestroyAPIView):
     
 
 
-
 class ParameterListAPIView(generics.ListAPIView):
    queryset = Parameter.active_objects.all()
    serializer_class = ParameterListSerializer
    permission_classes = [permissions.IsAuthenticated]
    pagination_class = PageNumberPagination
+   pagination_class.page_size = 10  
    filter_backends = [filters.SearchFilter]
    search_fields = ['name']
 
    def list(self, request, *args, **kwargs):
-       queryset = self.filter_queryset(self.get_queryset())
-       page = self.paginate_queryset(queryset)
-       serializer = self.get_serializer(page, many=True)
-       parameters = self.get_paginated_response(serializer.data)
-       return Response(parameters.data)
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
 
+    
 
 class ParameterCreateAPIView(generics.CreateAPIView):
     serializer_class = ParameterCreateSerializer
     permission_classes = [permissions.IsAdminUser]
+    
 
 
 class ParameterDetailAPIView(generics.RetrieveAPIView):

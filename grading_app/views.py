@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import filters
+from rest_framework.exceptions import NotFound
 from .serializers import CommodityListSerializer, CommodityCreateSerializer, ParameterCreateSerializer , CommodityGradeUpdateSerializer
 from .serializers import ParameterListSerializer, GradeParameterSerializer, CommodityGradeSerializer, CommodityGradeListSerializer
 
@@ -105,16 +106,27 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
        return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
 
 
-
 class CommodityGradeCreateAPIView(generics.CreateAPIView):
-    queryset = CommodityGrade.objects.all()
     serializer_class = CommodityGradeSerializer
 
     def perform_create(self, serializer):
         commodity_name = self.kwargs['commodity_name']
-        serializer.save(name=commodity_name)
+        try:
+            commodity = Commodity.objects.get(name=commodity_name)
+            serializer.save(commodity=commodity)
+        except Commodity.DoesNotExist:
+            raise NotFound("Commodity not found")
 
-        
+    def post(self, request, *args, **kwargs):
+        commodity_name = self.kwargs['commodity_name']
+        request.data['name'] = commodity_name
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
   
 class CommodityGradeListAPIView(generics.ListAPIView):
     queryset = CommodityGrade.active_objects.all()

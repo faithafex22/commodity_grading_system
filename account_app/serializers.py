@@ -53,10 +53,14 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Email and password are required.")
 
     def to_representation(self, instance):
+        user = self.context['request'].user
+
         return {
             'access_token': instance['access_token'],
             'refresh_token': instance['refresh_token'],
-            'message': 'User login successful.'
+            'message': 'User login successful.',
+            'first_name': user.first_name,
+            'last_name': user.last_name
         }
 
 

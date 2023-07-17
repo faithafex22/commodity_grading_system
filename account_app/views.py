@@ -41,7 +41,7 @@ class UserRegistrationAPIView(CreateAPIView):
 
 class LoginAPIView(APIView):
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
+        serializer = LoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
 
         try:

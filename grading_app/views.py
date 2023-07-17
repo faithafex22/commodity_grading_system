@@ -111,24 +111,13 @@ class CommodityGradeCreateAPIView(generics.CreateAPIView):
     queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeSerializer
 
-    def create(self, request, *args, **kwargs):
-        grade_parameter_data = request.data.get('grade_parameter')
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+    def perform_create(self, serializer):
+        commodity_name = self.kwargs['commodity_name']
+        serializer.save(commodity_name=commodity_name)
 
-        if grade_parameter_data:
-            for param_data in grade_parameter_data:
-                parameter_serializer = GradeParameterSerializer(data=param_data)
-                parameter_serializer.is_valid(raise_exception=True)
-                parameter_serializer.save(commodity_grade=serializer.instance)
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        
   
 
-        
-        
 class CommodityGradeListAPIView(generics.ListAPIView):
     queryset = CommodityGrade.active_objects.all()
     serializer_class = CommodityGradeListSerializer

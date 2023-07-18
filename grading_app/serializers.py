@@ -70,7 +70,6 @@ class CommodityGradeListSerializer(serializers.ModelSerializer):
 
 
 class CommodityGradeUpdateSerializer(serializers.ModelSerializer):
-    grade_parameters = GradeParameterSerializer(many=True)
 
     class Meta:
         model = CommodityGrade

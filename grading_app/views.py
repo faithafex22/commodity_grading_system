@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework import filters
 from rest_framework.exceptions import NotFound
 from .serializers import CommodityListSerializer, CommodityCreateSerializer, ParameterCreateSerializer , CommodityGradeUpdateSerializer
-from .serializers import ParameterListSerializer,  CommodityGradeSerializer, CommodityGradeListSerializer
+from .serializers import ParameterListSerializer,  CommodityGradeCreateSerializer, CommodityGradeListSerializer
 
 
 
@@ -106,27 +106,28 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
        return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
    
 
-class CommodityGradeListCreateView(generics.ListCreateAPIView):
-    queryset = CommodityGrade.objects.all()
-    serializer_class = CommodityGradeSerializer
 
-    def perform_create(self, serializer):
-        grade_parameters_data = self.request.data.pop('grade_parameters', [])
-        grade_parameters = []
-        for parameter_data in grade_parameters_data:
-            grade_parameters.append(GradeParameter.objects.get_or_create(**parameter_data)[0])
-        serializer.save(grade_parameters=grade_parameters)
-    
+class CommodityGradeCreateAPIView(generics.CreateAPIView):
+    queryset = CommodityGrade.active_objects.all()
+    serializer_class = CommodityGradeCreateSerializer
+    permission_classes = [permissions.IsAdminUser]
+        
 
-class CommodityGradeRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = CommodityGrade.objects.all()
-    serializer_class = CommodityGradeSerializer
+class CommodityGradeListAPIView(generics.ListAPIView):
+    queryset = CommodityGrade.active_objects.all()
+    serializer_class = CommodityGradeListSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    def perform_update(self, serializer):
-        grade_parameters_data = self.request.data.get('grade_parameters', [])
-        grade_parameters = []
-        for parameter_data in grade_parameters_data:
-            grade_parameters.append(GradeParameter.objects.get_or_create(**parameter_data)[0])
-        serializer.save(grade_parameters=grade_parameters)
 
-    
+class CommodityGradeDetailAPIView(generics.RetrieveAPIView):
+    queryset = CommodityGrade.active_objects.all()
+    serializer_class = CommodityGradeCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'pk'
+
+
+class CommodityGradeUpdateAPIView(generics.UpdateAPIView):
+    queryset = CommodityGrade.active_objects.all()
+    serializer_class = CommodityGradeUpdateSerializer
+    permission_classes = [permissions.IsAdminUser]
+    lookup_field = 'pk'

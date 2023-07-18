@@ -19,7 +19,7 @@ class CommodityCreateSerializer(serializers.ModelSerializer):
 class ParameterCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parameter
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 
@@ -37,29 +37,30 @@ class ParameterListSerializer(serializers.ModelSerializer):
 
 
 class GradeParameterSerializer(serializers.ModelSerializer):
+    parameter = ParameterCreateSerializer
     class Meta:
         model = GradeParameter
         fields = ('parameter', 'min_value', 'max_value')
 
 
-
-class CommodityGradeSerializer(serializers.ModelSerializer):
+class CommodityGradeCreateSerializer(serializers.ModelSerializer):
     grade_parameters = GradeParameterSerializer(many=True)
 
     class Meta:
         model = CommodityGrade
-        fields = ('name', 'grade_parameters')
+        fields = ['name', 'grade_parameters', ]
 
     def create(self, validated_data):
-        grade_parameters_data = validated_data.pop('grade_parameters', [])
+        grade_parameters_data = validated_data.pop('grade_parameters')
         commodity_grade = CommodityGrade.objects.create(**validated_data)
-
-        for parameter_data in grade_parameters_data:
-            GradeParameter.objects.create(commodity_grade=commodity_grade, **parameter_data)
-
+        
+        for param_data in grade_parameters_data:
+            parameter = param_data.pop('parameter')
+            grade_parameter = GradeParameter.objects.create(parameter=parameter, **param_data)
+            commodity_grade.grade_parameters.add(grade_parameter)
+        
         return commodity_grade
-
-
+    
 
 class CommodityGradeListSerializer(serializers.ModelSerializer):
     grade_parameter = GradeParameterSerializer(many=True)
@@ -67,7 +68,6 @@ class CommodityGradeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommodityGrade
         fields = ('name',)
-
 
 
 class CommodityGradeUpdateSerializer(serializers.ModelSerializer):

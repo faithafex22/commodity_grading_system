@@ -16,5 +16,6 @@ urlpatterns = [
     path('commodity_grades/create/', views.CommodityGradeCreateAPIView.as_view(), name='commodity-grade-create'),
     path('commodity_grades/<int:pk>/', views.CommodityGradeDetailAPIView.as_view(), name='commodity-grade-detail'),
     path('commodity_grades/<int:pk>/update/', views.CommodityGradeUpdateAPIView.as_view(), name='commodity-grade-update'),
+    path('commodity_grades/<int:pk>/delete', views.CommodityGradeDeleteAPIView.as_view(), name='commodity-grade-delete'),
 ]
     

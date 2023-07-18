@@ -74,7 +74,7 @@ class CommodityGradeUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CommodityGrade
-        fields = ('grade_parameter',)
+        fields = ('grade_parameters',)
 
 
 

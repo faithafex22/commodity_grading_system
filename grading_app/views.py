@@ -103,7 +103,7 @@ class ParameterDeleteAPIView(generics.DestroyAPIView):
        instance.is_active = False  
        instance.save()
        self.perform_destroy(instance)
-       return Response({"message": "Commodity successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
+       return Response({"message": "Parameter successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
    
 
 
@@ -131,3 +131,17 @@ class CommodityGradeUpdateAPIView(generics.UpdateAPIView):
     serializer_class = CommodityGradeUpdateSerializer
     permission_classes = [permissions.IsAdminUser]
     lookup_field = 'pk'
+
+
+class CommodityGradeDeleteAPIView(generics.DestroyAPIView):
+   queryset = CommodityGrade.active_objects.all()
+   serializer_class = CommodityGradeCreateSerializer
+   permission_classes = [permissions.IsAdminUser]
+   lookup_url_kwarg = 'pk' 
+   
+   def destroy(self, request, *args, **kwargs):
+       instance = self.get_object()
+       instance.is_active = False  
+       instance.save()
+       self.perform_destroy(instance)
+       return Response({"message": "Commodity grade successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
